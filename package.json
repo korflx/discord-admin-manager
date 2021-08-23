@@ -1,0 +1,27 @@
+{
+  "name": "discord-admin-manager",
+  "version": "1.0.0",
+  "description": "A Discord bot for managing the Administrator permission",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Touratica/discord-admin-manager.git"
+  },
+  "keywords": [],
+  "author": "João Pedro Almeida",
+  "license": "EUPL-1.2",
+  "bugs": {
+    "url": "https://github.com/Touratica/discord-admin-manager/issues"
+  },
+  "homepage": "https://github.com/Touratica/discord-admin-manager#readme",
+  "dependencies": {
+    "discord.js": "^13.1.0",
+    "dotenv": "^10.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.5"
+  }
+}
