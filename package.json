@@ -2,9 +2,11 @@
   "name": "discord-admin-manager",
   "version": "1.0.0",
   "description": "A Discord bot for managing the Administrator permission",
-  "main": "index.js",
+  "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install",
+    "run": "ts-node src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -18,10 +20,19 @@
   },
   "homepage": "https://github.com/Touratica/discord-admin-manager#readme",
   "dependencies": {
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "discord-api-types": "^0.22.0",
     "discord.js": "^13.1.0",
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.3.5"
   },
   "devDependencies": {
-    "typescript": "^4.3.5"
+    "husky": "^7.0.1",
+    "lint-staged": "^11.1.2",
+    "prettier": "2.3.2"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }
