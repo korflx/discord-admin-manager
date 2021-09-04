@@ -7,7 +7,9 @@
     "docs": "npx jsdoc -c ./jsdocconfig.json",
     "prepare": "husky install",
     "test": "ts-node ./src/index.ts",
-    "tsc": "tsc -w"
+    "tsc": "tsc -w",
+    "build": "tsc",
+    "run": "npm run build && node ./out/index.js"
   },
   "repository": {
     "type": "git",
