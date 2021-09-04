@@ -1,3 +1,5 @@
+docs
+
 ### Node template
 # Logs
 logs
@@ -36,7 +38,7 @@ bower_components
 .lock-wscript
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
-build/Release
+out/Release
 
 # Dependency directories
 node_modules/
@@ -77,11 +79,11 @@ web_modules/
 .cache
 .parcel-cache
 
-# Next.js build output
+# Next.js out output
 .next
 out
 
-# Nuxt.js build / generate output
+# Nuxt.js out / generate output
 .nuxt
 dist
 
@@ -91,7 +93,7 @@ dist
 # https://nextjs.org/blog/next-9-1#public-directory-support
 # public
 
-# vuepress build output
+# vuepress out output
 .vuepress/dist
 
 # Serverless directories

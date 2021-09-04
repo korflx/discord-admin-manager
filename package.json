@@ -4,9 +4,10 @@
   "description": "A Discord bot for managing the Administrator permission",
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "npx jsdoc -c ./jsdocconfig.json",
     "prepare": "husky install",
-    "run": "ts-node src/index.ts"
+    "test": "ts-node ./src/index.ts",
+    "tsc": "tsc -w"
   },
   "repository": {
     "type": "git",
@@ -24,13 +25,15 @@
     "discord-api-types": "^0.22.0",
     "discord.js": "^13.1.0",
     "dotenv": "^10.0.0",
-    "ts-node": "^10.2.1",
-    "typescript": "^4.3.5"
+    "ts-node": "^10.2.1"
   },
   "devDependencies": {
+    "better-docs": "^2.3.2",
     "husky": "^7.0.1",
+    "jsdoc": "^3.6.7",
     "lint-staged": "^11.1.2",
-    "prettier": "2.3.2"
+    "prettier": "2.3.2",
+    "typescript": "^4.3.5"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"

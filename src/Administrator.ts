@@ -1,11 +1,21 @@
 import { GuildMember } from "discord.js";
 import { APIInteractionGuildMember } from "discord-api-types";
 
+/**
+ * @class
+ * @hideconstructor
+ */
 export class Administrator {
+  /** @private */
   static _adminCandidateRoles: string[][] = [["IT", "Coordenação"]];
 
+  /** @private */
   static _adminRoleName: string = "Admin";
 
+  /**
+   * The current value defined as the name of the role with Administrator permissions.
+   * @static
+   */
   static get adminRoleName() {
     return this._adminRoleName;
   }
@@ -14,7 +24,14 @@ export class Administrator {
     this._adminRoleName = role;
   }
 
-  static async isAdministrator(member: GuildMember) {
+  /**
+   * Check if a member is a valid candidate for the Administrator permission.
+   * @static
+   * @async
+   * @param {GuildMember} member - The member whose permissions to be an administrator are to be checked for.
+   * @returns {boolean} If a member is a valid candidate for the Administrator permission.
+   */
+  static async isValidCandidate(member: GuildMember) {
     return (
       this._adminCandidateRoles.some((roleCombination) =>
         roleCombination.every((roleName) => {
@@ -24,11 +41,17 @@ export class Administrator {
     );
   }
 
+  /**
+   * Sets a member as an Administrator.
+   * @param {GuildMember} member
+   * @throws Will throw an error if the member isn't a valid candidate for the Administrator permission.
+   * @throws Will throw an error if the role set to be the Administrator role doesn't exist.
+   */
   static async setAdmin(
     member: GuildMember | APIInteractionGuildMember | null
   ) {
     if (member instanceof GuildMember) {
-      if (!(await Administrator.isAdministrator(member))) {
+      if (!(await Administrator.isValidCandidate(member))) {
         throw new Error(
           "You don't have the required permissions do execute this command."
         );
@@ -46,6 +69,12 @@ export class Administrator {
     }
   }
 
+  /**
+   * Removes the Administrator permission from a member.
+   * @param {GuildMember} member
+   * @throws Will throw an error if the member wasn't an Administrator already.'.
+   * @throws Will throw an error if the role set to be the Administrator role doesn't exist.
+   */
   static async removeAdmin(
     member: GuildMember | APIInteractionGuildMember | null
   ) {

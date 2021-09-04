@@ -22,6 +22,11 @@ const commands = [
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN || "");
 
+/**
+ *  Updates the slash commands known to Discord.
+ *  @async
+ *  @function
+ */
 export const updateCommands = async () => {
   try {
     console.log("Started refreshing application (/) commands.");
