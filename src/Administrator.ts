@@ -7,7 +7,7 @@ import { APIInteractionGuildMember } from "discord-api-types";
  */
 export class Administrator {
   /** @private */
-  static _adminCandidateRoles: string[][] = [["IT", "Coordenação"]];
+  static _adminCandidateRoles: string[][] = [["IT", "Coordenação"], ["sudoer"]];
 
   /** @private */
   static _adminRoleName: string = "Admin";
@@ -20,6 +20,10 @@ export class Administrator {
     return this._adminRoleName;
   }
 
+  /**
+   * Set the name of the role that has Administrator permissions.
+   * @param role
+   */
   static set adminRoleName(role: string) {
     this._adminRoleName = role;
   }
