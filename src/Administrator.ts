@@ -1,5 +1,4 @@
 import { GuildMember } from "discord.js";
-import { APIInteractionGuildMember } from "discord-api-types";
 
 /**
  * @class
@@ -51,26 +50,20 @@ export class Administrator {
    * @throws Will throw an error if the member isn't a valid candidate for the Administrator permission.
    * @throws Will throw an error if the role set to be the Administrator role doesn't exist.
    */
-  static async setAdmin(
-    member: GuildMember | APIInteractionGuildMember | null
-  ) {
-    if (member instanceof GuildMember) {
-      if (!(await Administrator.isValidCandidate(member))) {
-        throw new Error(
-          "You don't have the required permissions do execute this command."
-        );
-      }
-
-      const role = member.guild.roles.cache.find(
-        (role) => role.name === this.adminRoleName
+  static async setAdmin(member: GuildMember) {
+    if (!(await Administrator.isValidCandidate(member))) {
+      throw new Error(
+        "You don't have the required permissions do execute this command."
       );
-
-      if (role) {
-        await member.roles.add(role);
-        return;
-      }
-      throw new Error(`Role "${this.adminRoleName}" doesn't exist.`);
     }
+    const role = member.guild.roles.cache.find(
+      (role) => role.name === this.adminRoleName
+    );
+    if (role) {
+      await member.roles.add(role);
+      return;
+    }
+    throw new Error(`Role "${this.adminRoleName}" doesn't exist.`);
   }
 
   /**
@@ -79,24 +72,18 @@ export class Administrator {
    * @throws Will throw an error if the member wasn't an Administrator already.'.
    * @throws Will throw an error if the role set to be the Administrator role doesn't exist.
    */
-  static async removeAdmin(
-    member: GuildMember | APIInteractionGuildMember | null
-  ) {
-    if (member instanceof GuildMember) {
-      if (!member.roles.cache.find((role) => role.name === this.adminRoleName))
-        throw new Error(
-          `The user doesn't have Administrator privileges already.`
-        );
-
-      const role = member.guild.roles.cache.find(
-        (role) => role.name === this.adminRoleName
+  static async removeAdmin(member: GuildMember) {
+    if (!member.roles.cache.find((role) => role.name === this.adminRoleName))
+      throw new Error(
+        `The user doesn't have Administrator privileges already.`
       );
-
-      if (role) {
-        await member.roles.remove(role);
-        return;
-      }
-      throw new Error(`Role "${this.adminRoleName}" doesn't exist.`);
+    const role = member.guild.roles.cache.find(
+      (role) => role.name === this.adminRoleName
+    );
+    if (role) {
+      await member.roles.remove(role);
+      return;
     }
+    throw new Error(`Role "${this.adminRoleName}" doesn't exist.`);
   }
 }

@@ -1,4 +1,4 @@
-import { Client, Intents } from "discord.js";
+import { Client, GuildMember, Intents } from "discord.js";
 import { updateCommands } from "./commands";
 import { Administrator } from "./Administrator";
 import dotenv from "dotenv";
@@ -24,7 +24,7 @@ client.on("interactionCreate", async (interaction) => {
 
   switch (interaction.commandName) {
     case "sudo":
-      await Administrator.setAdmin(interaction.member).then(
+      await Administrator.setAdmin(interaction.member as GuildMember).then(
         () => {
           interaction.reply({
             content: `You've been temporarily promoted to ${Administrator.adminRoleName}.`,
@@ -34,9 +34,9 @@ client.on("interactionCreate", async (interaction) => {
             `${interaction.member?.user.username} has been granted Administrator privileges through the ${Administrator.adminRoleName} role.`
           );
           setTimeout(async () => {
-            await Administrator.removeAdmin(interaction.member).catch((error) =>
-              console.error(error)
-            );
+            await Administrator.removeAdmin(
+              interaction.member as GuildMember
+            ).catch((error) => console.error(error));
             console.log(
               `${interaction.member?.user.username} has been demoted from the ${Administrator.adminRoleName} role.`
             );
