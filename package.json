@@ -9,7 +9,7 @@
     "test": "ts-node ./src/index.ts",
     "tsc": "tsc -w",
     "build": "tsc",
-    "run": "npm run build && node ./out/index.js"
+    "start": "npm run build && node ./out/index.js"
   },
   "repository": {
     "type": "git",
