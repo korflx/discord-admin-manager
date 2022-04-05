@@ -1,6 +1,6 @@
 {
   "name": "discord-admin-manager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Discord bot for managing the Administrator permission",
   "main": "src/index.ts",
   "scripts": {
