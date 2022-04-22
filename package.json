@@ -2,14 +2,14 @@
   "name": "discord-admin-manager",
   "version": "1.0.1",
   "description": "A Discord bot for managing the Administrator permission",
-  "main": "src/index.ts",
+  "main": "out/index.js",
   "scripts": {
     "docs": "npx jsdoc -c ./jsdocconfig.json",
     "prepare": "husky install",
-    "test": "ts-node ./src/index.ts",
+    "test": "ts-node .src/index.ts",
     "tsc": "tsc -w",
     "build": "tsc",
-    "start": "npm run build && node ./out/index.js"
+    "start": "node ."
   },
   "repository": {
     "type": "git",
