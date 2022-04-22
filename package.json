@@ -9,6 +9,7 @@
     "test": "ts-node .src/index.ts",
     "tsc": "tsc -w",
     "build": "tsc",
+    "prestart": "npm run build",
     "start": "node ."
   },
   "repository": {
