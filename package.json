@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/Touratica/discord-admin-manager#readme",
   "dependencies": {
-    "@discordjs/rest": "^0.5.0",
+    "@discordjs/rest": "^1.0.0",
     "discord-api-types": "^0.36.0",
     "discord.js": "^13.8.1",
     "dotenv": "^16.0.1",
