@@ -32,14 +32,14 @@ export class Administrator {
    * @static
    * @async
    * @param {GuildMember} member - The member whose permissions to be an administrator are to be checked for.
-   * @returns {boolean} If a member is a valid candidate for the Administrator permission.
+   * @returns {Promise<boolean>} If a member is a valid candidate for the Administrator permission.
    */
-  static async isValidCandidate(member: GuildMember) {
+  static async isValidCandidate(member: GuildMember): Promise<boolean> {
     return (
       this._adminCandidateRoles.some((roleCombination) =>
-        roleCombination.every((roleName) => {
-          return member.roles.cache.find((role) => role.name === roleName);
-        })
+        roleCombination.every((roleName) =>
+          member.roles.cache.some((role) => role.name === roleName)
+        )
       ) || (await member.guild.fetchOwner()) === member
     );
   }
