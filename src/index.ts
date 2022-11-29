@@ -20,19 +20,25 @@ const commands: ApplicationCommandData[] = [
   },
 ];
 
-if (!process.env["TOKEN"]) throw new Error("A Discord Token must be provided!");
+if (!process.env["DISCORD_BOT_TOKEN"])
+  throw new Error("A Discord Token must be provided!");
 
-const rest = new REST({ version: "10" }).setToken(process.env["TOKEN"]);
+const rest = new REST({ version: "10" }).setToken(
+  process.env["DISCORD_BOT_TOKEN"]
+);
 
 (async () => {
   try {
     console.log("Started refreshing application (/) commands.");
 
-    if (!process.env["APPLICATION_ID"])
+    if (!process.env["DISCORD_CLIENT_ID"])
       throw new Error("An application ID must be provided!");
-    await rest.put(Routes.applicationCommands(process.env["APPLICATION_ID"]), {
-      body: commands,
-    });
+    await rest.put(
+      Routes.applicationCommands(process.env["DISCORD_CLIENT_ID"]),
+      {
+        body: commands,
+      }
+    );
 
     console.log("Successfully reloaded application (/) commands.");
   } catch (error) {
