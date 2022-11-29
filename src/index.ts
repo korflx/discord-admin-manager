@@ -1,61 +1,67 @@
-import { Client, GuildMember, Intents } from "discord.js";
-import { updateCommands } from "./commands";
-import { Administrator } from "./Administrator";
+import { Client, Events, GatewayIntentBits, REST, Routes } from "discord.js";
 import dotenv from "dotenv";
+
+import type { ApplicationCommandData } from "discord.js";
+import handleSudo from "./sudo";
 
 dotenv.config();
 
-updateCommands();
+const commands: ApplicationCommandData[] = [
+  {
+    name: "sudo",
+    description: "Gives the user temporary Administrator permissions.",
+    // options: [
+    //   {
+    //     type: 6,
+    //     name: "user",
+    //     description: "The user to be granted Administrator privileges.",
+    //   },
+    // ],
+  },
+];
 
-const client = new Client({
-  intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_MEMBERS,
-  ],
-});
+if (!process.env["TOKEN"]) throw new Error("A Discord Token must be provided!");
 
-client.on("ready", () => {
-  console.log("The bot is ready!");
-});
+const rest = new REST({ version: "10" }).setToken(process.env["TOKEN"]);
 
-client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isCommand()) return;
+(async () => {
+  try {
+    console.log("Started refreshing application (/) commands.");
 
-  switch (interaction.commandName) {
-    case "sudo":
-      await Administrator.setAdmin(interaction.member as GuildMember).then(
-        () => {
-          interaction.reply({
-            content: `You've been temporarily promoted to ${Administrator.adminRoleName}.`,
-            ephemeral: true,
-          });
-          console.log(
-            `${interaction.member?.user.username} has been granted Administrator privileges through the ${Administrator.adminRoleName} role.`
-          );
-          setTimeout(async () => {
-            await Administrator.removeAdmin(
-              interaction.member as GuildMember
-            ).catch((error) => console.error(error));
-            console.log(
-              `${interaction.member?.user.username} has been demoted from the ${Administrator.adminRoleName} role.`
-            );
+    if (!process.env["APPLICATION_ID"])
+      throw new Error("An application ID must be provided!");
+    await rest.put(Routes.applicationCommands(process.env["APPLICATION_ID"]), {
+      body: commands,
+    });
 
-            await interaction.followUp({
-              content: `Times up! Your ${Administrator.adminRoleName} role has expired.`,
-              ephemeral: true,
-            });
-          }, 300000);
-        },
-        (error) => {
-          interaction.reply({
-            content: `You don't have permissions to execute this command.`,
-          });
-          console.error(error);
-        }
-      );
-      break;
+    console.log("Successfully reloaded application (/) commands.");
+  } catch (error) {
+    console.error(error);
   }
-});
+})();
 
-client.login(process.env.TOKEN);
+try {
+  const client = new Client({
+    intents: [GatewayIntentBits.Guilds],
+  });
+
+  if (!client) throw new Error("Client not created!");
+
+  client.once(Events.ClientReady, () => {
+    console.log(`Logged in as ${client.user?.tag}!`);
+  });
+
+  client.on(Events.InteractionCreate, async (interaction) => {
+    if (!interaction.isChatInputCommand()) return;
+
+    switch (interaction.commandName) {
+      case "sudo":
+        await handleSudo(interaction);
+        break;
+    }
+  });
+
+  client.login(process.env["TOKEN"]);
+} catch (error) {
+  console.error(error);
+}

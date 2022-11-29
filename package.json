@@ -2,14 +2,14 @@
   "name": "discord-admin-manager",
   "version": "1.0.2",
   "description": "A Discord bot for managing the Administrator permission",
-  "main": "out/index.js",
+  "private": true,
+  "type": "commonjs",
+  "main": "dist/index.js",
   "scripts": {
     "docs": "npx jsdoc -c ./jsdocconfig.json",
     "prepare": "husky install",
-    "test": "ts-node .src/index.ts",
-    "tsc": "tsc -w",
-    "build": "tsc",
-    "prestart": "npm run build",
+    "build": "npx tsc",
+    "watch": "npx tsc -w",
     "start": "node ."
   },
   "repository": {
@@ -24,19 +24,18 @@
   },
   "homepage": "https://github.com/Touratica/discord-admin-manager#readme",
   "dependencies": {
-    "@discordjs/rest": "^0.4.1",
-    "discord-api-types": "^0.31.2",
-    "discord.js": "^13.6.0",
-    "dotenv": "^16.0.0",
-    "ts-node": "^10.7.0"
+    "discord.js": "^14.7.0",
+    "dotenv": "^16.0.3"
   },
   "devDependencies": {
+    "@tsconfig/node18-strictest": "^1.0.0",
+    "@types/node": "^18.8.3",
     "better-docs": "^2.7.2",
-    "husky": "^7.0.4",
-    "jsdoc": "^3.6.10",
-    "lint-staged": "^12.4.0",
-    "prettier": "2.6.2",
-    "typescript": "^4.6.3"
+    "husky": "^8.0.2",
+    "jsdoc": "^4.0.0",
+    "lint-staged": "^13.0.4",
+    "prettier": "2.8.0",
+    "typescript": "^4.9.3"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
