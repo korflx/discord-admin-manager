@@ -26,7 +26,7 @@ const isValidCandidate = async (member: GuildMember): Promise<boolean> => {
 const setAdmin = async (member: GuildMember) => {
   if (!(await isValidCandidate(member))) {
     throw new Error(
-      `${member.user.tag} tried to grant himself Administrator permissions in ${member.guild.name}.`
+      `${member.user.tag} tried to grant himself Administrator permissions in ${member.guild.name}#${member.guild.id}.`
     );
   }
   const role = member.guild.roles.cache.find(
@@ -37,23 +37,19 @@ const setAdmin = async (member: GuildMember) => {
     return;
   }
   throw new Error(
-    `Role "${ADMIN_ROLE_NAME}" doesn't exist in ${member.guild.name}.`
+    `Role "${ADMIN_ROLE_NAME}" doesn't exist in ${member.guild.name}#${member.guild.id}.`
   );
 };
 
 const removeAdmin = async (member: GuildMember) => {
-  if (!member.roles.cache.find((role) => role.name === ADMIN_ROLE_NAME))
-    throw new Error(`The user doesn't have Administrator privileges already.`);
-  const role = member.guild.roles.cache.find(
+  const adminRole = member.guild.roles.cache.find(
     (role) => role.name === ADMIN_ROLE_NAME
   );
-  if (role) {
-    await member.roles.remove(role);
-    return;
-  }
-  throw new Error(
-    `Role "${ADMIN_ROLE_NAME}" doesn't exist in ${member.guild.name}.`
-  );
+  if (!adminRole)
+    throw new Error(
+      `Role "${ADMIN_ROLE_NAME}" doesn't exist in ${member.guild.name}#${member.guild.id}.`
+    );
+  await member.roles.remove(adminRole);
 };
 
 const handleSudo = async (interaction: ChatInputCommandInteraction) => {
@@ -66,19 +62,29 @@ const handleSudo = async (interaction: ChatInputCommandInteraction) => {
         ephemeral: true,
       });
       console.log(
-        `${member.user.tag} has been granted Administrator privileges in ${member.guild.name}.`
+        `${member.user.tag} has been granted Administrator privileges in ${member.guild.name}#${member.guild.id}.`
       );
       setTimeout(async () => {
-        await removeAdmin(member).catch((error) => console.error(error));
-        console.log(
-          `${member.user.tag} has been demoted from the ${ADMIN_ROLE_NAME} role in ${member.guild.name}.`
-        );
+        await removeAdmin(member).then(
+          async () => {
+            console.log(
+              `${member.user.tag} has been demoted from the ${ADMIN_ROLE_NAME} role in ${member.guild.name}#${member.guild.id}.`
+            );
 
-        await interaction.followUp({
-          content: `Times up! Your ${ADMIN_ROLE_NAME} role has expired.`,
-          ephemeral: true,
-        });
-      }, 300000);
+            await interaction.followUp({
+              content: `Times up! Your ${ADMIN_ROLE_NAME} role has expired.`,
+              ephemeral: true,
+            });
+          },
+          async (error) => {
+            console.error(error);
+            await interaction.followUp({
+              content: `An error ocurred while trying to demote you.`,
+              ephemeral: true,
+            });
+          }
+        );
+      }, 300000); // 300000ms = 5min
     },
     (error) => {
       interaction.reply({
