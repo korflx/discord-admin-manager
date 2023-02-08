@@ -29,13 +29,13 @@
   },
   "devDependencies": {
     "@tsconfig/node18-strictest": "^1.0.0",
-    "@types/node": "^18.11.18",
+    "@types/node": "^18.11.19",
     "better-docs": "^2.7.2",
     "husky": "^8.0.3",
     "jsdoc": "^4.0.0",
     "lint-staged": "^13.1.0",
     "prettier": "2.8.3",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.5"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
