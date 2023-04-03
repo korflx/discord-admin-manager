@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/Touratica/discord-admin-manager#readme",
   "dependencies": {
-    "discord.js": "^14.7.1",
+    "discord.js": "^14.9.0",
     "dotenv": "^16.0.3"
   },
   "devDependencies": {
